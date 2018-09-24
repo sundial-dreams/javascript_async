@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Title</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+
+<body>
+    <script src="async.js"></script>
+    <script src="promisify.js"></script>
+    <script src="generator.js"></script>
+    <script>
+        /*
+        test_1 callback
+        ajax.baseUrl = 'http://localhost:3000';
+        ajax.get('/api/test1',{name: 'dpf', age: 19},function (data) {
+        //do something such as render page
+        console.log(data);
+        });
+        ajax.post('/api/test2',{name: 'youname', age: 19}, function (data) {
+        //do something such as render page
+        console.log(data);
+        });
+        */
+
+        /*
+        test_2 Event
+        Event.on('data GET',data => {
+          //do something such as render page
+          console.log(data)
+        });
+
+        Event.on('data POST',data => {
+          //do something such as render page
+          console.log(data)
+        });
+        ajax.baseUrl = 'http://localhost:3000';
+        ajax.get('/api/test1',{name: 'dpf', age: 19});
+        ajax.post('/api/test2',{name: 'youname', age: 19});
+        */
+
+
+        /*
+        test_3 Promise
+        ajax = promisify(ajax);
+        ajax.baseUrl = 'http://localhost:3000';
+        ajax.get = (url,data) => ajax({url: url, method: 'GET', data: data});
+        ajax.post = (url,data) => ajax({url: url, method: 'POST', data: data});
+        ajax.get('/api/test1', {name: 'dpf', age: 19}).then(([data]) => {
+          console.log(data)
+        });
+        ajax.post('/api/test2', {name: 'youname', age: 19}).then(([data]) => {
+          console.log(data)
+        });*/
+
+
+        /**
+        test_4 Generator
+        ajax = promisify(ajax);
+        ajax.baseUrl = 'http://localhost:3000';
+        ajax.get = (url,data) => ajax({url: url, method: 'GET', data: data});
+        ajax.post = (url,data) => ajax({url: url, method: 'POST', data: data});
+        run(function*(){
+          let [[data1],[data2]] = yield [ajax.get('/api/test1', {name: 'dpf', age: 19}),ajax.post('/api/test2', {name: 'youname', age: 19})];
+          console.log(data1,data2)
+        });*/
+
+        //test_5 async/await
+        ajax = promisify(ajax);
+        ajax.baseUrl = 'http://localhost:3000';
+        ajax.get = (url,data) => ajax({url: url, method: 'GET', data: data});
+        ajax.post = (url,data) => ajax({url: url, method: 'POST', data: data});
+        (async function () {
+            let [data1, data2] = await Promise.all([ajax.get('/api/test1', {
+                name: 'dpf',
+                age: 19
+            }), ajax.post('/api/test2', {
+                name: 'youname',
+                age: 19
+            })]);
+            console.log(data1, data2)
+        })()
+    </script>
+</body>
+
+</html>
